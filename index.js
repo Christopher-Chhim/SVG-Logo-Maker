@@ -1,7 +1,5 @@
 const inquirer = require('inquirer');
-const shapes = require('./lib/shapes.js');
 const fs = require('fs');
-
 
 const shapes = {
   Circle: (color) => `<circle cx="25" cy="75" r="20" fill="${color}" />`,
