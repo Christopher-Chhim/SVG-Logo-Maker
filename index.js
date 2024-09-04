@@ -29,6 +29,7 @@ class Square extends Shape {
   }
 }
 
+// WHEN I am prompted for text
 async function run() {
   const shapeOptions = ['Circle', 'Triangle', 'Square'];
   const colorOptions = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink'];
@@ -38,29 +39,37 @@ async function run() {
       type: 'input',
       name: 'text',
       message: 'Enter text for the logo (up to 3 characters):',
+      // THEN I can enter up to three characters
       validate: (input) => input.length <= 3 || 'Please enter up to 3 characters.',
     },
     {
       type: 'list',
       name: 'textColor',
+      // WHEN I am prompted for the text color
       message: 'Select a color for the text:',
+      // THEN I can enter a color keyword (OR a hexadecimal number)
       choices: colorOptions,
     },
     {
       type: 'list',
       name: 'shape',
+      // WHEN I am prompted for a shape
       message: 'Select a shape:',
+      // THEN I am presented with a list of shapes to choose from: circle, triangle, and square
       choices: shapeOptions,
     },
     {
       type: 'list',
       name: 'shapeColor',
+      // WHEN I am prompted for the shape's color
       message: 'Select a color for the shape:',
+      // THEN I can enter a color keyword (OR a hexadecimal number)
       choices: colorOptions,
     },
   ];
 
   const answers = await inquirer.prompt(questions);
+  // WHEN I have entered input for all the prompts
   const { text, textColor, shape: shapeName, shapeColor } = answers;
 
   let shapeClass;
@@ -89,7 +98,9 @@ async function run() {
     <text x="150" y="${textY}" font-size="60" text-anchor="middle" fill="${textColor}">${text}</text>
   </svg>`;
 
+  // THEN an SVG file is created named `logo.svg`
   fs.writeFileSync('logo.svg', svg);
+  // AND the output text "Generated logo.svg" is printed in the command line
   console.log('Generated logo.svg');
 }
 
