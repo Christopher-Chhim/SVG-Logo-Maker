@@ -1,65 +1,96 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const shapes = {
-  Circle: (color) => `<circle cx="25" cy="75" r="20" fill="${color}" />`,
-  Triangle: (color) => `<polygon points="150,50 200,150 100,150" fill="${color}" />`,
-  Square: (color) => `<rect x="100" y="50" width="100" height="100" fill="${color}" />`
-};
+class Shape {
+  constructor() {
+    this.color = '';
+  }
 
-const generateSVG = (text, textColor, shape, shapeColor) => `
-<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
-  ${shapes[shape](shapeColor)}
-  <text x="150" y="125" font-size="40" text-anchor="middle" fill="${textColor}">${text}</text>
-</svg>
-`;
-
-const questions = [{
-    type: 'input',
-    message: 'What would you like your logo to say?',
-    name: 'logo',
-    validate: (input) => input.length <= 3 || 'Text must be 3 characters or less.'
-  },
-  {
-    type: 'input',
-    message: 'What color would you like your text to be?',
-    name: 'textColor',
-  },
-  {
-    type: 'list',
-    message: 'What shape would you like to use for your logo?',
-    name: 'shape',
-    choices: ["Triangle", "Square", "Circle"]
-    
-  },
-  {
-    type: 'input',
-    message: 'What color would you like your shape to be?',
-    name: 'shapeColor',
-  },
-];  
-
-
-
-function init() {
-  inquirer
-    .prompt(questions)
-    .then((answers) => {
-      const { logo, textColor, shape, shapeColor } = answers;
-      const svgContent = generateSVG(logo, textColor, shape, shapeColor);
-    
-      fs.writeFile('./examples/logo.svg', svgContent, (err) => {
-        if (err) {
-          console.error('Error writing file:', err);
-        } else {
-          console.log('Successfully created logo.svg file!');
-        }
-      });
-    })
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+  setColor(color) {
+    this.color = color;
+  }
 }
 
+class Circle extends Shape {
+  render() {
+    return `<circle cx="150" cy="100" r="80" fill="${this.color}" />`;
+  }
+}
 
-init();
+class Triangle extends Shape {
+  render() {
+    return `<polygon points="150,18 244,182 56,182" fill="${this.color}" />`;
+  }
+}
+
+class Square extends Shape {
+  render() {
+    return `<rect x="50" y="50" width="200" height="200" fill="${this.color}" />`;
+  }
+}
+
+async function run() {
+  const shapeOptions = ['Circle', 'Triangle', 'Square'];
+  const colorOptions = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink'];
+
+  const questions = [
+    {
+      type: 'input',
+      name: 'text',
+      message: 'Enter text for the logo (up to 3 characters):',
+      validate: (input) => input.length <= 3 || 'Please enter up to 3 characters.',
+    },
+    {
+      type: 'list',
+      name: 'textColor',
+      message: 'Select a color for the text:',
+      choices: colorOptions,
+    },
+    {
+      type: 'list',
+      name: 'shape',
+      message: 'Select a shape:',
+      choices: shapeOptions,
+    },
+    {
+      type: 'list',
+      name: 'shapeColor',
+      message: 'Select a color for the shape:',
+      choices: colorOptions,
+    },
+  ];
+
+  const answers = await inquirer.prompt(questions);
+  const { text, textColor, shape: shapeName, shapeColor } = answers;
+
+  let shapeClass;
+  switch (shapeName) {
+    case 'Circle':
+      shapeClass = Circle;
+      break;
+    case 'Triangle':
+      shapeClass = Triangle;
+      break;
+    case 'Square':
+      shapeClass = Square;
+      break;
+    default:
+      console.error('Invalid shape selection. Exiting...');
+      process.exit(1);
+  }
+
+  const shapeInstance = new shapeClass();
+  shapeInstance.setColor(shapeColor);
+
+  const textY = shapeName === 'Triangle' ? 150 : 125;
+
+  const svg = `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
+    ${shapeInstance.render()}
+    <text x="150" y="${textY}" font-size="60" text-anchor="middle" fill="${textColor}">${text}</text>
+  </svg>`;
+
+  fs.writeFileSync('logo.svg', svg);
+  console.log('Generated logo.svg');
+}
+
+run();
