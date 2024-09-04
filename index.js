@@ -88,13 +88,13 @@ async function run() {
       process.exit(1);
   }
 
-  const shapeInstance = new shapeClass();
-  shapeInstance.setColor(shapeColor);
+  const shapeObject = new shapeClass();
+  shapeObject.setColor(shapeColor);
 
   const textY = shapeName === 'Triangle' ? 150 : 125;
 
   const svg = `<svg version="1.1" width="300" height="200" xmlns="http://www.w3.org/2000/svg">
-    ${shapeInstance.render()}
+    ${shapeObject.render()}
     <text x="150" y="${textY}" font-size="60" text-anchor="middle" fill="${textColor}">${text}</text>
   </svg>`;
 
