@@ -31,8 +31,8 @@ class Square extends Shape {
 
 // WHEN I am prompted for text
 async function run() {
-  const shapeOptions = ['Circle', 'Triangle', 'Square'];
-  const colorOptions = ['red', 'green', 'blue', 'yellow', 'purple', 'orange', 'pink'];
+  const shapeOptions = ['Triangle', 'Square', 'Circle'];
+  const colorOptions = ['red', 'blue', 'pink', 'brown', 'white', 'orange', 'black'];
 
   const questions = [
     {
@@ -84,7 +84,7 @@ async function run() {
       shapeClass = Square;
       break;
     default:
-      console.error('Invalid shape selection. Exiting...');
+      console.error('Unacceptable shape choice. Aborting code...');
       process.exit(1);
   }
 
