@@ -1,5 +1,7 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
+const path = require('path'); // Importing path module
+
 
 class Shape {
   constructor() {
