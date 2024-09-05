@@ -98,10 +98,18 @@ async function run() {
     <text x="150" y="${textY}" font-size="60" text-anchor="middle" fill="${textColor}">${text}</text>
   </svg>`;
 
+  
+  const filePath = path.join(__dirname, 'examples', 'logo.svg');
+
+  if (!fs.existsSync(path.join(__dirname, 'examples'))) {
+    fs.mkdirSync(path.join(__dirname, 'examples'));
+  }
+
   // THEN an SVG file is created named `logo.svg`
-  fs.writeFileSync('logo.svg', svg);
+  fs.writeFileSync(filePath, svg);
+
   // AND the output text "Generated logo.svg" is printed in the command line
-  console.log('Generated logo.svg');
+  console.log('Generated logo.svg in the examples folder');
 }
 
 run();
