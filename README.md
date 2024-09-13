@@ -14,7 +14,7 @@ Download Jest (npm install).
 ## Usage
 
 Run 'node index.js' on the terminal. Answer the prompt to your liking and answer the prompt accordingly. The first prompt will ask the user to enter text (of up to 3) characters for the logo. Next, it will give users a list of options for the color of their choosing for the text. Consequentially, users are prompted to choose between a triangle, square, and circle for their SVG logo. As a result, users are given a list of options for the color of their choosing for their shape. Once completed, the terminal should notify the user that a logo.svg file has been generated in the examples folder. Check to see if a logo.svg file has been generated and if it matches user input.
-For further instructions please refer to this link: (https://drive.google.com/file/d/1JOcXVV-yJe6nLiAT4vn6boulb35sA-6l/view)
+For further instructions please refer to this link: (https://drive.google.com/file/d/1P6pIuc8_O8NlM5Zbna3-he_zFkYM-SvW/view)
 
 
 ## Features
